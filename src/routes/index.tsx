@@ -8,11 +8,21 @@ import Questions from '../pages/Questions';
 const Auth = createStackNavigator();
 
 const AuthRoutes: React.FC = () => (
-  <Auth.Navigator>
-    <Auth.Screen name= "Main" component={Main} />
-    {/* <Auth.Screen name= "Manage" component={Manage} /> */}
-    {/* <Auth.Screen name= "Questions" component={Questions} /> */}
+  <Auth.Navigator
+    screenOptions={{
+      // headerShown: false
+      headerTintColor: '#FFF',
+      headerStyle:{
+        backgroundColor: '#7159c1'
+      },
+      cardStyle: { backgroundColor: '#312e38' }
+    }}
+    // initialRouteName="Manage"
+  >
+    <Auth.Screen name="Main" component={Main} />
+    <Auth.Screen name="Manage" component={Manage} />
+    <Auth.Screen name="Questions" component={Questions} />
   </Auth.Navigator>
-)
+);
 
 export default AuthRoutes
