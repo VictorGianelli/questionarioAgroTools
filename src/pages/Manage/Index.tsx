@@ -8,16 +8,22 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
 import { Container, Title } from './styles';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 
 const Manage: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
+  const route = useRoute();
+
+  //const { param } = route.params;
+
   const handleNext = useCallback((data: object) => {
     console.log(data);
   }, [])
 
+
+  console.log(route.params)
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}

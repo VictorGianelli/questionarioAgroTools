@@ -33,14 +33,31 @@ const Main: React.FC = () => {
 
           <Title>Faça a sua escolha</Title>
 
-          <Form ref={formRef} onSubmit={handleChoose} style={{ width: '100%' }}>
-            <Input name="email" placeholder="email" />
-            <Input name="senha" placeholder="senha" />
-            <Button onPress={() => {
+          {/* <Form ref={formRef} onSubmit={handleChoose} style={{ width: '100%' }}> */}
+            {/* <Input name="email" placeholder="email" /> */}
+            {/* <Input name="senha" placeholder="senha" /> */}
+            {/* <Button onPress={() => {
               formRef.current?.submitForm();
-            }}>Questionario</Button>
-          </Form>
-          <Button onPress={() => navigation.navigate('Manage')}>Respostas</Button>
+            }}>Questionario</Button> */}
+          {/* </Form> */}
+          <Button onPress={() => {
+            navigation.navigate('Manage', {
+              param: 'questionario',
+            });
+          }}>Questionario</Button>
+
+          <Button onPress={() => {
+            navigation.navigate('Manage', {
+              param: 'respostas',
+            });
+          }}>Respostas</Button>
+
+          <Button
+            onPress={() => {
+              navigation.navigate('Manage', {
+                param: 'criar',
+              });
+            }}>Criar</Button>
 
         </Container>
       </ScrollView>
