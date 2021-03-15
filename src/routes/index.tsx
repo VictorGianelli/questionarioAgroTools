@@ -12,12 +12,12 @@ const AuthRoutes: React.FC = () => (
     screenOptions={{
       // headerShown: false
       headerTintColor: '#FFF',
-      headerStyle:{
+      headerStyle: {
         backgroundColor: '#7159c1'
       },
       cardStyle: { backgroundColor: '#312e38' }
     }}
-    // initialRouteName="Manage"
+  // initialRouteName="Questions"
   >
     <Auth.Screen name="Main" component={Main} />
     <Auth.Screen name="Manage" component={Manage} />

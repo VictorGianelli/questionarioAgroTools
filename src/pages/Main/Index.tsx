@@ -34,9 +34,9 @@ const Main: React.FC = () => {
           <Title>Faça a sua escolha</Title>
 
           {/* <Form ref={formRef} onSubmit={handleChoose} style={{ width: '100%' }}> */}
-            {/* <Input name="email" placeholder="email" /> */}
-            {/* <Input name="senha" placeholder="senha" /> */}
-            {/* <Button onPress={() => {
+          {/* <Input name="email" placeholder="email" /> */}
+          {/* <Input name="senha" placeholder="senha" /> */}
+          {/* <Button onPress={() => {
               formRef.current?.submitForm();
             }}>Questionario</Button> */}
           {/* </Form> */}
@@ -54,8 +54,8 @@ const Main: React.FC = () => {
 
           <Button
             onPress={() => {
-              navigation.navigate('Manage', {
-                param: 'criar',
+              navigation.navigate('Questions', {
+
               });
             }}>Criar</Button>
 
