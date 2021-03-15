@@ -22,31 +22,39 @@ const Questions: React.FC = () => {
       horizontal={false}
       showsHorizontalScrollIndicator={false}>
       {/* <Container> */}
-      <QuestionContainer>
-        <Form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Title>Na verdade eu gostaria de saber a posição dessaosição da pergunta</Title>
-          <Input name="resposta1" placeholder="Resposta" />
-        </Form>
-      </QuestionContainer>
-      <QuestionContainer>
-        <Form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Title>Na verdade eu gostaria de saber a posição dessaosição da pergunta</Title>
-          <Input name="resposta2" placeholder="Resposta" />
-        </Form>
-      </QuestionContainer>
-      <QuestionContainer>
-        <Form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Title>Na verdade eu gostaria de saber a posição dessaosição da pergunta</Title>
-          <Input name="resposta3" placeholder="Resposta" />
-        </Form>
-      </QuestionContainer>
-      <QuestionContainer>
-        <Button onPress={() => {
-          formRef.current?.submitForm();
-        }}>Questionario</Button>
-      </QuestionContainer>
+      <Form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
+        <QuestionContainer>
+
+          <Title>Nome completo:</Title>
+          <Input name="nomeCompleto" placeholder="Resposta" />
+
+        </QuestionContainer>
+        <QuestionContainer>
+
+          <Title>Ocupação:</Title>
+          <Input name="ocupacao" placeholder="Resposta" />
+
+        </QuestionContainer>
+        <QuestionContainer>
+
+          <Title>Sexo:</Title>
+          <Input name="sexo" placeholder="Resposta" />
+
+        </QuestionContainer>
+        <QuestionContainer>
+
+          <Title>Idade:</Title>
+          <Input name="idade" placeholder="Resposta" />
+
+        </QuestionContainer>
+        <QuestionContainer>
+          <Button onPress={() => {
+            formRef.current?.submitForm();
+          }}>Questionario</Button>
+        </QuestionContainer>
+      </Form>
       {/* </Container> */}
-    </ScrollView>
+    </ScrollView >
     // </Container>
   );
 };

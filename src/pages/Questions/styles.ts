@@ -19,7 +19,7 @@ export const Title = styled.Text`
 `;
 
 export const QuestionContainer = styled(RectButton)`
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   padding: 20px;
   margin-bottom: 16px;
