@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 
-import { ScrollView } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
@@ -13,6 +13,8 @@ const Questions: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback((data: object) => {
+    var info = JSON.stringify(data)
+    Alert.alert("Dados", info)
     console.log(data);
   }, [])
 
