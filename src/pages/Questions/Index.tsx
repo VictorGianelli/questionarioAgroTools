@@ -7,15 +7,28 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
 import { Container, QuestionContainer, Title } from './styles';
+import { JsxFlags } from 'typescript';
+import { parseISO } from 'date-fns';
 // import { Container } from '../../components/Input/styles';
 
 const Questions: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback((data: object) => {
+    const dados = JSON.stringify({ data });
+
+    const parsedDate = parseISO(new Date().toISOString());
+    // const response = JSON.stringify(data.toString())
+
+    // const formatData = response.data.map(category => {
+    //   return {
+    //     ...category,
+    //   };
+    // });
+
     var info = JSON.stringify(data)
-    Alert.alert("Dados", info)
-    console.log(data);
+    Alert.alert("Dados", dados + "\n" + parsedDate)
+    // console.log(JSON.parse(data));
   }, [])
 
   return (
