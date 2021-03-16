@@ -11,17 +11,28 @@ const AuthRoutes: React.FC = () => (
   <Auth.Navigator
     screenOptions={{
       // headerShown: false
-      headerTintColor: '#FFF',
+      headerTintColor: '#EEE',
       headerStyle: {
-        backgroundColor: '#7159c1'
+        backgroundColor: '#D0FEFE70'
       },
-      cardStyle: { backgroundColor: '#312e38' }
+      cardStyle: { backgroundColor: '#1F3B4D' }
     }}
   // initialRouteName="Questions"
   >
-    <Auth.Screen name="Main" component={Main} />
-    <Auth.Screen name="Manage" component={Manage} />
-    <Auth.Screen name="Questions" component={Questions} />
+    <Auth.Screen name="Main" component={Main}
+      options={{
+        headerTitle: "Início"
+      }}
+    />
+    <Auth.Screen name="Manage" component={Manage}
+      options={{
+        headerTitle: "",
+        //headerShown: false,
+      }} />
+    <Auth.Screen name="Questions" component={Questions}
+      options={{
+        headerTitle: "Questões"
+      }} />
   </Auth.Navigator>
 );
 

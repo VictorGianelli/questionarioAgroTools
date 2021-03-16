@@ -10,6 +10,7 @@ import { FormHandles } from '@unform/core';
 import {
   Container, Title,
   ContentsList,
+  ContentItem,
   ContentName,
   ContentContainer
 } from './styles';
@@ -34,55 +35,77 @@ const Manage: React.FC = () => {
 
   const route = useRoute();
 
-  useEffect(() => {
-    api.get('questionarios').then((response) => {
-      console.log(response.data)
-      setContents(response.data)
-    })
+  const way = Object.values(route.params)
 
+  useEffect(() => {
+    if (way == "questionario") {
+      api.get('questionarios').then((response) => {
+        console.log(response.data)
+        setContents(response.data)
+      })
+    } else {
+      api.get('categories').then((response) => {
+        console.log(response.data)
+        setContents(response.data)
+      })
+    }
   }, []);
 
   const handleNext = useCallback((data: object) => {
     console.log(data);
   }, [])
 
-  const navigateToCreateAppointment = useCallback(
+  const navigateToQuestionario = useCallback(
     (provider_id: string) => {
-      navigate('CreateAppointment', { provider_id });
+      console.log(provider_id);
+      navigate('Questions', { provider_id });
     },
     [navigate],
   );
+
+  console.log(way)
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       enabled
     >
-      {/* <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ flex: 1 }}
-      > */}
-      <Container>
-        <Title>Faça a sua escolha</Title>
+      <ScrollView
+        horizontal={false}
+        showsHorizontalScrollIndicator={false}>
+        <Container>
+          <Title>Faça a sua escolha</Title>
 
-        <ContentsList
+          {contents.map(content => (
+            <ContentItem
+              key={content.id}
+            //isSelected={category.id === selectedCategory}
+            // onPress={() => handleSelectCategory(category.id)}
+            //activeOpacity={0.6}
+            //testID={`category-${category.id}`}
+            >
+              <ContentContainer
+                onPress={() => navigateToQuestionario(String(content.id))}
+              >
+                <ContentName>{content.titulo}</ContentName>
+              </ContentContainer>
+            </ContentItem>
+          ))}
+
+          {/* <ContentsList
           data={contents}
           keyExtractor={content => String(content.id)}
           renderItem={({ item }) => (
             <ContentContainer
-              //onPress={() => navigateToCreateAppointment(item)}
+              onPress={() => navigateToQuestionario(String(item.id))}
             >
               <ContentName>{item.titulo}</ContentName>
             </ContentContainer>
           )}
-        />
-        {/* <Form ref={formRef} onSubmit={handleNext} style={{ width: '100%' }}>
-            <Input name="email" placeholder="email" />
-            <Button onPress={() => { }}>Questionario</Button>
-          </Form> */}
+        /> */}
 
-      </Container>
-      {/* </ScrollView> */}
+        </Container>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }

@@ -9,6 +9,7 @@ import { FormHandles } from '@unform/core';
 import { Container, QuestionContainer, Title } from './styles';
 import Geolocation from 'react-native-geolocation-service';
 import { parseISO } from 'date-fns';
+import { useRoute } from '@react-navigation/core';
 // import { Container } from '../../components/Input/styles';
 
 interface Respostas {
@@ -28,11 +29,12 @@ interface Posicao {
 const Questions: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
+  const route = useRoute();
+
   const handleSubmit = useCallback(
     (data: object) => {
-      request_location_runtime_permission();
-
       async function loadItems(): Promise<void> {
+        request_location_runtime_permission();
 
         const dados = JSON.stringify({ data });
         const posicao = JSON.stringify({ position });
@@ -59,8 +61,11 @@ const Questions: React.FC = () => {
           ocupacao: dataValue[1],
           sexo: dataValue[2],
           idade: dataValue[3],
+          latitude: position.latitude,
+          longitude: position.longitude,
         }
 
+        Object.values(resposta)
 
         // const resp = JSON.parse(resposta)
 
@@ -73,7 +78,7 @@ const Questions: React.FC = () => {
         // var o
         // o = Object.create({ p: { value: 42 } });
 
-        Alert.alert("Dados", parsedDate + "\n" + dados + "\n" + posicao)
+        Alert.alert("Dados", JSON.stringify(resposta))
         // console.log(parsedDate);
         // console.log(JSON.stringify(dados));
         // console.log(JSON.stringify(posicao));
@@ -87,6 +92,7 @@ const Questions: React.FC = () => {
 
     }, [])
 
+  const [resposta, setResposta] = useState<Respostas>([]);
   const [position, setPosition] = useState<Posicao>({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -125,6 +131,8 @@ const Questions: React.FC = () => {
     }
   };
 
+  // const way = Object.values(route.params)
+  // console.log(way)
   return (
     // <Container>
     <ScrollView

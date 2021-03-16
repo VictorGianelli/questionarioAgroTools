@@ -13,16 +13,16 @@ export const Container = styled.View`
 export const Title = styled.Text`
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 20px;
   color: #f4ede8;
-  margin: 6px 0 24px;
+  margin: 0px 0 16px;
 `;
 
 export const QuestionContainer = styled(RectButton)`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  margin-bottom: 16px;
-  background: #3e3b47;
+  margin: 8px 4px 8px;
+  background: #01737470;
   border-radius: 10px;
 `;
