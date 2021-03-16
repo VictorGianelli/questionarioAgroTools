@@ -6,11 +6,10 @@ import { ScrollView, Alert, PermissionsAndroid } from 'react-native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
-import { Container, QuestionContainer, Title } from './styles';
+import { QuestionContainer, Title } from './styles';
 import Geolocation from 'react-native-geolocation-service';
 import { parseISO } from 'date-fns';
 import { useRoute } from '@react-navigation/core';
-// import { Container } from '../../components/Input/styles';
 
 interface Respostas {
   nomeCompleto: string;
@@ -29,29 +28,14 @@ interface Posicao {
 const Questions: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const route = useRoute();
 
   const handleSubmit = useCallback(
     (data: object) => {
       async function loadItems(): Promise<void> {
         request_location_runtime_permission();
 
-        const dados = JSON.stringify({ data });
-        const posicao = JSON.stringify({ position });
-
         const dataValue = Object.values(data)
         const posicaoValue = Object.values(position)
-
-        // console.log(Object.values(data).length);
-        // console.log(dataValue);
-
-        for (var i = 0; i < Object.values(data).length; i++) {
-          console.log("dataValue[" + i + "]: " + dataValue[i]);
-        }
-
-        for (var i = 0; i < Object.values(position).length; i++) {
-          console.log("posicaoValue[" + i + "]: " + posicaoValue[i]);
-        }
 
         const parsedDate = parseISO(new Date().toISOString());
 
@@ -65,30 +49,10 @@ const Questions: React.FC = () => {
           longitude: position.longitude,
         }
 
-        Object.values(resposta)
-
-        // const resp = JSON.parse(resposta)
-
-        // const formattedCategories = response.data.map(resposta => {
-        //   return {
-        //     ...category,
-        //   };
-        // });
-
-        // var o
-        // o = Object.create({ p: { value: 42 } });
-
         Alert.alert("Dados", JSON.stringify(resposta))
-        // console.log(parsedDate);
-        // console.log(JSON.stringify(dados));
-        // console.log(JSON.stringify(posicao));
       }
 
-      //  if (position.longitudeDelta != 0) {
       loadItems()
-      // } else {
-      //   Alert.alert("Sinal", "Vc esta sem sunal de gps")
-      // }
 
     }, [])
 
@@ -131,14 +95,11 @@ const Questions: React.FC = () => {
     }
   };
 
-  // const way = Object.values(route.params)
-  // console.log(way)
   return (
-    // <Container>
     <ScrollView
       horizontal={false}
       showsHorizontalScrollIndicator={false}>
-      {/* <Container> */}
+
       <Form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
         <QuestionContainer>
 
@@ -170,9 +131,8 @@ const Questions: React.FC = () => {
           }}>Questionario</Button>
         </QuestionContainer>
       </Form>
-      {/* </Container> */}
+      
     </ScrollView >
-    // </Container>
   );
 };
 

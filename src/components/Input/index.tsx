@@ -24,14 +24,6 @@ const Input: React.FC<InputProps> = ({ name, ...rest }) => {
       name: fieldName,
       ref: inputValeuRef.current,
       path: 'value',
-      setValue(ref: any, value) {
-        inputValeuRef.current.value = value;
-        inputElementRef.current.setNative({ text: value });
-      },
-      clearValue() {
-        inputValeuRef.current.value = '';
-        inputElementRef.current.clear();
-      },
     });
   }, [fieldName, registerField]);
 
