@@ -11,31 +11,83 @@ import Geolocation from 'react-native-geolocation-service';
 import { parseISO } from 'date-fns';
 // import { Container } from '../../components/Input/styles';
 
+interface Respostas {
+  nomeCompleto: string;
+  ocupacao: string;
+  sexo: string;
+  idade: string;
+}
+
+interface Posicao {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
+
 const Questions: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback((data: object) => {
-    request_location_runtime_permission();
-    const dados = JSON.stringify({ data });
+  const handleSubmit = useCallback(
+    (data: object) => {
+      request_location_runtime_permission();
 
-    const parsedDate = parseISO(new Date().toISOString());
+      async function loadItems(): Promise<void> {
 
-    const posicao = JSON.stringify({ position });
-    // const location = getCurrentPosition();
-    // const response = JSON.stringify(data.toString())
+        const dados = JSON.stringify({ data });
+        const posicao = JSON.stringify({ position });
 
-    // const formatData = response.data.map(category => {
-    //   return {
-    //     ...category,
-    //   };
-    // });
+        const dataValue = Object.values(data)
+        const posicaoValue = Object.values(position)
 
-    var info = JSON.stringify(data)
-    Alert.alert("Dados", dados + "\n" + parsedDate + "\n" + posicao)
-    // console.log(JSON.parse(data));
-  }, [])
+        // console.log(Object.values(data).length);
+        // console.log(dataValue);
 
-  const [position, setPosition] = useState({
+        for (var i = 0; i < Object.values(data).length; i++) {
+          console.log("dataValue[" + i + "]: " + dataValue[i]);
+        }
+
+        for (var i = 0; i < Object.values(position).length; i++) {
+          console.log("posicaoValue[" + i + "]: " + posicaoValue[i]);
+        }
+
+        const parsedDate = parseISO(new Date().toISOString());
+
+        let resposta = {
+          data_dadastro: parsedDate,
+          nomeCompleto: dataValue[0],
+          ocupacao: dataValue[1],
+          sexo: dataValue[2],
+          idade: dataValue[3],
+        }
+
+
+        // const resp = JSON.parse(resposta)
+
+        // const formattedCategories = response.data.map(resposta => {
+        //   return {
+        //     ...category,
+        //   };
+        // });
+
+        // var o
+        // o = Object.create({ p: { value: 42 } });
+
+        Alert.alert("Dados", parsedDate + "\n" + dados + "\n" + posicao)
+        // console.log(parsedDate);
+        // console.log(JSON.stringify(dados));
+        // console.log(JSON.stringify(posicao));
+      }
+
+      //  if (position.longitudeDelta != 0) {
+      loadItems()
+      // } else {
+      //   Alert.alert("Sinal", "Vc esta sem sunal de gps")
+      // }
+
+    }, [])
+
+  const [position, setPosition] = useState<Posicao>({
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.0922,
