@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+
+import Input from '../../components/Input'
+import Button from '../../components/Button'
+
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
 
 import {
   Container, Title,
+  ContentsList,
   ContentItem,
   ContentName,
   ContentContainer
@@ -19,6 +26,8 @@ export interface Content {
 }
 
 const Manage: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+  const navigation = useNavigation();
 
   const [contents, setContents] = useState<Content[]>([]);
 
@@ -30,12 +39,12 @@ const Manage: React.FC = () => {
 
   useEffect(() => {
     if (way == "questionario") {
-      api.get('questionarios').then((response) => {
+      api.get('questionario').then((response) => {
         console.log(response.data)
         setContents(response.data)
       })
     } else {
-      api.get('respostas').then((response) => {
+      api.get('resposta').then((response) => {
         console.log(response.data)
         setContents(response.data)
       })
@@ -70,14 +79,30 @@ const Manage: React.FC = () => {
           {contents.map(content => (
             <ContentItem
               key={content.id}
+            //isSelected={category.id === selectedCategory}
+            // onPress={() => handleSelectCategory(category.id)}
+            //activeOpacity={0.6}
+            //testID={`category-${category.id}`}
             >
               <ContentContainer
                 onPress={() => navigateToQuestionario(String(content.id))}
               >
-                <ContentName>{content.titulo}</ContentName>
+                <ContentName>{content.data_dadastro}</ContentName>
               </ContentContainer>
             </ContentItem>
           ))}
+
+          {/* <ContentsList
+          data={contents}
+          keyExtractor={content => String(content.id)}
+          renderItem={({ item }) => (
+            <ContentContainer
+              onPress={() => navigateToQuestionario(String(item.id))}
+            >
+              <ContentName>{item.titulo}</ContentName>
+            </ContentContainer>
+          )}
+        /> */}
 
         </Container>
       </ScrollView>

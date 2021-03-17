@@ -1,13 +1,18 @@
 import React, { useCallback, useRef } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+//title https://app.rocketseat.com.br/node/iniciando-aplicativo-mobile/group/estrutura-e-padroes-2/lesson/importando-fontes-externas
 
+import Input from '../../components/Input'
 import Button from '../../components/Button'
 
 import { useNavigation } from '@react-navigation/native';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
 
 import { Container, Title } from './styles';
 
 const Main: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
   const handleChoose = useCallback((data: object) => {
@@ -28,6 +33,13 @@ const Main: React.FC = () => {
 
           <Title>Faça a sua escolha</Title>
 
+          {/* <Form ref={formRef} onSubmit={handleChoose} style={{ width: '100%' }}> */}
+          {/* <Input name="email" placeholder="email" /> */}
+          {/* <Input name="senha" placeholder="senha" /> */}
+          {/* <Button onPress={() => {
+              formRef.current?.submitForm();
+            }}>Questionario</Button> */}
+          {/* </Form> */}
           <Button onPress={() => {
             navigation.navigate('Manage', {
               param: 'questionario',
@@ -39,6 +51,11 @@ const Main: React.FC = () => {
               param: 'respostas',
             });
           }}>Respostas</Button>
+
+          <Button
+            onPress={() => {
+              //navigation.navigate('Questions');
+            }}>Criar</Button>
 
         </Container>
       </ScrollView>

@@ -17,6 +17,16 @@ export const Title = styled.Text`
   margin: 64px 0 24px;
 `;
 
+export const ContentsList = styled(
+  FlatList as new () => FlatList<Content>,
+).attrs({
+  contentContainerStyle: {
+    paddingTop: 32,
+    paddingBottom: 16,
+    paddingHorizontal: 24,
+  },
+})`  width: 100%;`;
+
 export const ContentContainer = styled(RectButton)`
   flex-direction: row;
   align-items: center;

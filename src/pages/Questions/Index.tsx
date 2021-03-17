@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 
@@ -6,10 +6,18 @@ import { ScrollView, Alert, PermissionsAndroid } from 'react-native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
-import { QuestionContainer, Title } from './styles';
+import { Container, QuestionContainer, Title } from './styles';
 import Geolocation from 'react-native-geolocation-service';
-import { parseISO } from 'date-fns';
-import { useRoute } from '@react-navigation/core';
+import {
+  parseISO,
+  format,
+  formatRelative,
+  formatDistance,
+} from 'date-fns';
+import { useNavigation, useRoute } from '@react-navigation/core';
+import api from '../../services/api';
+// import { format } from 'prettier';
+// import { Container } from '../../components/Input/styles';
 
 interface Respostas {
   nomeCompleto: string;
@@ -27,36 +35,79 @@ interface Posicao {
 
 const Questions: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const navigation = useNavigation();
+  const route = useRoute();
 
+  const fk_id = Object.values(route.params)
+
+
+  useEffect(() => {
+    api.get('questionario').then((response) => {
+      // console.log(response.data)
+      setQuestionario(response.data)
+    })
+
+  }, []);
 
   const handleSubmit = useCallback(
-    (data: object) => {
+    (data: Respostas) => {
       async function loadItems(): Promise<void> {
         request_location_runtime_permission();
 
-        const dataValue = Object.values(data)
-        const posicaoValue = Object.values(position)
-
         const parsedDate = parseISO(new Date().toISOString());
 
-        let resposta = {
-          data_dadastro: parsedDate,
-          nomeCompleto: dataValue[0],
-          ocupacao: dataValue[1],
-          sexo: dataValue[2],
-          idade: dataValue[3],
+        const formattedDate = format(
+          parsedDate,
+          "dd'/'MM'/'yyyy"
+        );
+
+        let localização = {
           latitude: position.latitude,
           longitude: position.longitude,
         }
 
-        Alert.alert("Dados", JSON.stringify(resposta))
+        let respostas = {
+          nomeCompleto: data.nomeCompleto,
+          ocupacao: data.ocupacao,
+          sexo: data.sexo,
+          idade: data.idade,
+        }
+
+        let resposta = {
+          fk_questionario: fk_id[0],
+          data_dadastro: formattedDate,
+          localização,
+          respostas,
+        }
+
+        await api.post('resposta', resposta);
+
+
+        // const formattedCategories = response.data.map(resposta => {
+        //   return {
+        //     ...category,
+        //   };
+        // });
+
+        // var o
+        // o = Object.create({ p: { value: 42 } });
+
+        Alert.alert("Salvo!", "Respostas salvas com sucesso")
+        // console.log(parsedDate);
+        // console.log(JSON.stringify(dados));
+        // console.log(JSON.stringify(posicao));
+        navigation.navigate('Main')
       }
 
+      //  if (position.longitudeDelta != 0) {
       loadItems()
+      // } else {
+      //   Alert.alert("Sinal", "Vc esta sem sunal de gps")
+      // }
 
     }, [])
 
-  const [resposta, setResposta] = useState<Respostas>([]);
+  const [questionario, setQuestionario] = useState<Respostas>([]);
   const [position, setPosition] = useState<Posicao>({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -95,11 +146,14 @@ const Questions: React.FC = () => {
     }
   };
 
+  // const way = Object.values(route.params)
+  // console.log(way)
   return (
+    // <Container>
     <ScrollView
       horizontal={false}
       showsHorizontalScrollIndicator={false}>
-
+      {/* <Container> */}
       <Form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
         <QuestionContainer>
 
@@ -128,11 +182,12 @@ const Questions: React.FC = () => {
         <QuestionContainer>
           <Button onPress={() => {
             formRef.current?.submitForm();
-          }}>Questionario</Button>
+          }}>Enviar</Button>
         </QuestionContainer>
       </Form>
-      
+      {/* </Container> */}
     </ScrollView >
+    // </Container>
   );
 };
 
