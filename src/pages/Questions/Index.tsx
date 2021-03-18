@@ -16,8 +16,6 @@ import {
 } from 'date-fns';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import api from '../../services/api';
-// import { format } from 'prettier';
-// import { Container } from '../../components/Input/styles';
 
 interface Respostas {
   nomeCompleto: string;
@@ -39,7 +37,6 @@ const Questions: React.FC = () => {
   const route = useRoute();
 
   const [data, setData] = useState<Respostas>([]);
-  const [value, setValue] = useState(String);
   const [position, setPosition] = useState<Posicao>({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -52,7 +49,6 @@ const Questions: React.FC = () => {
   useEffect(() => {
 
     api.get(`resposta/${fk_id[1]}`).then((response) => {
-      console.log(fk_id[0])
       const answer = Object.values(response.data.respostas)
 
       let respostas = {
@@ -66,7 +62,6 @@ const Questions: React.FC = () => {
         setData(answer)
       }
 
-      console.log(answer[0])
     })
 
   }, []);
@@ -110,27 +105,12 @@ const Questions: React.FC = () => {
 
 
         setData(respostas)
-        // const formattedCategories = response.data.map(resposta => {
-        //   return {
-        //     ...category,
-        //   };
-        // });
-
-        // var o
-        // o = Object.create({ p: { value: 42 } });
 
         Alert.alert("Salvo!", "Respostas salvas com sucesso")
-        // console.log(parsedDate);
-        // console.log(JSON.stringify(dados));
-        // console.log(JSON.stringify(posicao));
         navigation.navigate('Main')
       }
 
-      //  if (position.longitudeDelta != 0) {
       loadItems()
-      // } else {
-      //   Alert.alert("Sinal", "Vc esta sem sunal de gps")
-      // }
 
     }, [])
 
@@ -166,14 +146,11 @@ const Questions: React.FC = () => {
     }
   };
 
-  // const way = Object.values(route.params)
-  console.log(fk_id[0])
   return (
-    // <Container>
     <ScrollView
       horizontal={false}
       showsHorizontalScrollIndicator={false}>
-      {/* <Container> */}
+        
       <Form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
         <QuestionContainer>
 
@@ -230,9 +207,8 @@ const Questions: React.FC = () => {
 
         </QuestionContainer>
       </Form>
-      {/* </Container> */}
+      
     </ScrollView >
-    // </Container>
   );
 };
 

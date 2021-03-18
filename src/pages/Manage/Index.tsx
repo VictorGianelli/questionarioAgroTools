@@ -27,9 +27,6 @@ export interface Content {
 }
 
 const Manage: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
-  const navigation = useNavigation();
-
   const [contents, setContents] = useState<Content[]>([]);
   const [value, setValue] = useState(String);
 
@@ -42,13 +39,11 @@ const Manage: React.FC = () => {
   useEffect(() => {
     if (way == "questionario") {
       api.get('questionario').then((response) => {
-        // console.log(response.data)
         setContents(response.data)
         setValue("questionario")
       })
     } else {
       api.get('resposta').then((response) => {
-        // console.log(response.data)
         setContents(response.data)
         setValue("resposta")
       })
@@ -56,19 +51,13 @@ const Manage: React.FC = () => {
 
   }, []);
 
-  const handleNext = useCallback((data: object) => {
-    console.log(data);
-  }, [])
-
   const navigateToQuestionario = useCallback(
     (provider_id: string) => {
-      // console.log(provider_id);
       navigate('Questions', { param: way[0], provider_id });
     },
     [navigate],
   );
 
-  // console.log(contents[0])
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -89,10 +78,6 @@ const Manage: React.FC = () => {
           {contents.map(content => (
             <ContentItem
               key={content.id}
-            //isSelected={category.id === selectedCategory}
-            // onPress={() => handleSelectCategory(category.id)}
-            //activeOpacity={0.6}
-            //testID={`category-${category.id}`}
             >
 
               <ContentContainer
@@ -107,18 +92,6 @@ const Manage: React.FC = () => {
               </ContentContainer>
             </ContentItem>
           ))}
-
-          {/* <ContentsList
-          data={contents}
-          keyExtractor={content => String(content.id)}
-          renderItem={({ item }) => (
-            <ContentContainer
-              onPress={() => navigateToQuestionario(String(item.id))}
-            >
-              <ContentName>{item.titulo}</ContentName>
-            </ContentContainer>
-          )}
-        /> */}
 
         </Container>
       </ScrollView>

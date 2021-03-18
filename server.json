@@ -26,35 +26,5 @@
     }
   ],
   "resposta": [
-    {
-      "fk_questionario": "questionario",
-      "data_dadastro": "18/03/2021",
-      "localização": {
-        "latitude": 37.78825,
-        "longitude": -122.4324
-      },
-      "respostas": {
-        "nomeCompleto": "A",
-        "ocupacao": "",
-        "sexo": "",
-        "idade": ""
-      },
-      "id": 1
-    },
-    {
-      "fk_questionario": "resposta",
-      "data_dadastro": "18/03/2021",
-      "localização": {
-        "latitude": 37.78825,
-        "longitude": -122.4324
-      },
-      "respostas": {
-        "nomeCompleto": "R",
-        "ocupacao": "",
-        "sexo": "",
-        "idade": ""
-      },
-      "id": 2
-    }
   ]
 }
