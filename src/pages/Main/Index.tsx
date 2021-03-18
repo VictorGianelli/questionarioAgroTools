@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
-import { Container, Title } from './styles';
+import { View, Container, Title, Note } from './styles';
 
 const Main: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
@@ -20,46 +20,32 @@ const Main: React.FC = () => {
   }, [])
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      enabled
-    >
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ flex: 1 }}
-      >
-        <Container>
+    <>
+      <Container>
 
-          <Title>Faça a sua escolha</Title>
+        <Title>Questionario AgroTools</Title>
+        <Button onPress={() => {
+          navigation.navigate('Manage', {
+            param: 'questionario',
+          });
+        }}>Questionario</Button>
 
-          {/* <Form ref={formRef} onSubmit={handleChoose} style={{ width: '100%' }}> */}
-          {/* <Input name="email" placeholder="email" /> */}
-          {/* <Input name="senha" placeholder="senha" /> */}
-          {/* <Button onPress={() => {
-              formRef.current?.submitForm();
-            }}>Questionario</Button> */}
-          {/* </Form> */}
-          <Button onPress={() => {
-            navigation.navigate('Manage', {
-              param: 'questionario',
-            });
-          }}>Questionario</Button>
+        <Button onPress={() => {
+          navigation.navigate('Manage', {
+            param: 'resposta',
+          });
+        }}>Respostas</Button>
 
-          <Button onPress={() => {
-            navigation.navigate('Manage', {
-              param: 'respostas',
-            });
-          }}>Respostas</Button>
+        <Button
+          onPress={() => {
+            //navigation.navigate('Questions');
+          }}>Criar</Button>
 
-          <Button
-            onPress={() => {
-              //navigation.navigate('Questions');
-            }}>Criar</Button>
-
-        </Container>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </Container>
+      <View>
+        <Note>App desenvolvido por Victor Gianelli para avaliação</Note>
+      </View>
+    </>
   );
 };
 

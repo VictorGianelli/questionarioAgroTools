@@ -38,13 +38,35 @@ const Questions: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
+  const [data, setData] = useState<Respostas>([]);
+  const [value, setValue] = useState(String);
+  const [position, setPosition] = useState<Posicao>({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
   const fk_id = Object.values(route.params)
 
-
   useEffect(() => {
-    api.get('questionario').then((response) => {
-      // console.log(response.data)
-      setQuestionario(response.data)
+
+    api.get(`resposta/${fk_id[1]}`).then((response) => {
+      console.log(fk_id[0])
+      const answer = Object.values(response.data.respostas)
+
+      let respostas = {
+        nomeCompleto: answer[0],
+        ocupacao: answer[1],
+        sexo: answer[2],
+        idade: answer[3],
+      }
+
+      if (fk_id[0] == "resposta") {
+        setData(answer)
+      }
+
+      console.log(answer[0])
     })
 
   }, []);
@@ -80,9 +102,14 @@ const Questions: React.FC = () => {
           respostas,
         }
 
-        await api.post('resposta', resposta);
+        if (fk_id[0] == "resposta") {
+          await api.put(`resposta/${fk_id[1]}`, resposta);
+        } else {
+          await api.post('resposta', resposta);
+        }
 
 
+        setData(respostas)
         // const formattedCategories = response.data.map(resposta => {
         //   return {
         //     ...category,
@@ -107,13 +134,6 @@ const Questions: React.FC = () => {
 
     }, [])
 
-  const [questionario, setQuestionario] = useState<Respostas>([]);
-  const [position, setPosition] = useState<Posicao>({
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
 
   const request_location_runtime_permission = async () => {
     try {
@@ -147,7 +167,7 @@ const Questions: React.FC = () => {
   };
 
   // const way = Object.values(route.params)
-  // console.log(way)
+  console.log(fk_id[0])
   return (
     // <Container>
     <ScrollView
@@ -158,31 +178,56 @@ const Questions: React.FC = () => {
         <QuestionContainer>
 
           <Title>Nome completo:</Title>
-          <Input name="nomeCompleto" placeholder="Resposta" />
+          <Input
+            name="nomeCompleto"
+            defaultValue={data[0]}
+            placeholder="Resposta"
+            autoCapitalize="words"
+            returnKeyType="next" />
 
         </QuestionContainer>
         <QuestionContainer>
 
           <Title>Ocupação:</Title>
-          <Input name="ocupacao" placeholder="Resposta" />
+          <Input
+            name="ocupacao"
+            defaultValue={data[1]}
+            placeholder="Resposta"
+            returnKeyType="next" />
 
         </QuestionContainer>
         <QuestionContainer>
 
           <Title>Sexo:</Title>
-          <Input name="sexo" placeholder="Resposta" />
+          <Input
+            name="sexo"
+            defaultValue={data[2]}
+            placeholder="Resposta"
+            returnKeyType="next" />
 
         </QuestionContainer>
         <QuestionContainer>
 
           <Title>Idade:</Title>
-          <Input name="idade" placeholder="Resposta" />
+          <Input
+            name="idade"
+            defaultValue={data[3]}
+            placeholder="Resposta"
+            keyboardType="number-pad"
+            returnKeyType="next" />
 
         </QuestionContainer>
         <QuestionContainer>
-          <Button onPress={() => {
-            formRef.current?.submitForm();
-          }}>Enviar</Button>
+          {fk_id[0] == "questionario" ? (
+            <Button onPress={() => {
+              formRef.current?.submitForm();
+            }}>Enviar</Button>
+          ) : (
+            <Button onPress={() => {
+              formRef.current?.submitForm();
+            }}>Atualizar</Button>
+          )}
+
         </QuestionContainer>
       </Form>
       {/* </Container> */}

@@ -22,7 +22,8 @@ export interface Content {
   id: number;
   titulo: string;
   usuario: string;
-  data: string;
+  data_dadastro: string;
+  fk_questionario: string;
 }
 
 const Manage: React.FC = () => {
@@ -30,6 +31,7 @@ const Manage: React.FC = () => {
   const navigation = useNavigation();
 
   const [contents, setContents] = useState<Content[]>([]);
+  const [value, setValue] = useState(String);
 
   const { navigate } = useNavigation();
 
@@ -40,15 +42,18 @@ const Manage: React.FC = () => {
   useEffect(() => {
     if (way == "questionario") {
       api.get('questionario').then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         setContents(response.data)
+        setValue("questionario")
       })
     } else {
       api.get('resposta').then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         setContents(response.data)
+        setValue("resposta")
       })
     }
+
   }, []);
 
   const handleNext = useCallback((data: object) => {
@@ -57,13 +62,13 @@ const Manage: React.FC = () => {
 
   const navigateToQuestionario = useCallback(
     (provider_id: string) => {
-      console.log(provider_id);
-      navigate('Questions', { provider_id });
+      // console.log(provider_id);
+      navigate('Questions', { param: way[0], provider_id });
     },
     [navigate],
   );
 
-  console.log(way)
+  // console.log(contents[0])
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -74,7 +79,12 @@ const Manage: React.FC = () => {
         horizontal={false}
         showsHorizontalScrollIndicator={false}>
         <Container>
-          <Title>Faça a sua escolha</Title>
+
+          {value != "questionario" ? (
+            <Title>Escolha quais respostas deseja ver</Title>
+          ) : (
+            <Title>Escolha um questionário</Title>
+          )}
 
           {contents.map(content => (
             <ContentItem
@@ -84,10 +94,16 @@ const Manage: React.FC = () => {
             //activeOpacity={0.6}
             //testID={`category-${category.id}`}
             >
+
               <ContentContainer
                 onPress={() => navigateToQuestionario(String(content.id))}
               >
-                <ContentName>{content.data_dadastro}</ContentName>
+                {value == "questionario" ? (
+                  <ContentName>{content.titulo}</ContentName>
+                ) : (
+                  <ContentName>Enviado em {content.data_dadastro}</ContentName>
+                )}
+
               </ContentContainer>
             </ContentItem>
           ))}

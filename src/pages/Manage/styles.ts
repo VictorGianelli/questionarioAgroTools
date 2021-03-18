@@ -14,7 +14,7 @@ export const Title = styled.Text`
   align-items: center;
   justify-content: center;
   color: #f4ede8;
-  margin: 64px 0 24px;
+  margin: 64px 34px 24px;
 `;
 
 export const ContentsList = styled(
